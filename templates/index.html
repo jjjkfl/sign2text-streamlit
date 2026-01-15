@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISL Real Time Translation - The Upside Down</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Benguiat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Benguiat+Pro:wght@700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Special Elite', cursive;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Intro Screen */
+        .intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeOut 1s ease-out 6s forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        /* Stranger Things Logo Animation */
+        .st-logo {
+            font-family: 'Benguiat', serif;
+            font-size: 5rem;
+            font-weight: 700;
+            text-align: center;
+            color: #fff;
+            position: relative;
+            opacity: 0;
+            animation: logoAppear 3s ease-out forwards;
+            letter-spacing: -3px;
+        }
+
+        @keyframes logoAppear {
+            0% {
+                opacity: 0;
+                transform: scale(3);
+                filter: blur(20px);
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+                filter: blur(0);
+            }
+        }
+
+        .st-logo-line1,
+        .st-logo-line2,
+        .st-logo-line3 {
+            display: block;
+            line-height: 0.85;
+        }
+
+        .st-logo-line1 {
+            font-size: 3rem;
+            color: #ff6666;
+        }
+
+        .st-logo-line2 {
+            color: #ff0000;
+            text-shadow: 
+                0 0 10px #ff0000,
+                0 0 20px #ff0000,
+                0 0 30px #ff0000,
+                0 0 40px #8b0000,
+                0 0 70px #8b0000;
+            animation: flicker 2s infinite 3s;
+        }
+
+        .st-logo-line3 {
+            font-size: 2.5rem;
+            color: #ffaaaa;
+        }
+
+        .st-subtitle {
+            font-family: 'Special Elite', cursive;
+            font-size: 1.2rem;
+            margin-top: 2rem;
+            opacity: 0;
+            animation: subtitleAppear 2s ease-out 3.5s forwards;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+        }
+
+        @keyframes subtitleAppear {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Animated Background */
+        .upside-down-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a0000 50%, #000 100%);
+            z-index: -2;
+        }
+
+        /* Floating particles */
+        .particle {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 50, 50, 0.6);
+            border-radius: 50%;
+            animation: float-particle 15s infinite;
+            z-index: -1;
+        }
+
+        @keyframes float-particle {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(50px);
+                opacity: 0;
+            }
+        }
+
+        /* Flickering effect */
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+            51% { opacity: 1; }
+            60% { opacity: 0.9; }
+            61% { opacity: 1; }
+        }
+
+        /* Moving Title */
+        .moving-title {
+            font-family: 'Benguiat', serif;
+            font-size: 4rem;
+            text-align: center;
+            color: #fff;
+            margin: 3rem 0 2rem 0;
+            letter-spacing: -3px;
+            animation: titleMove 8s ease-in-out infinite;
+            text-shadow: 
+                0 0 5px #fff,
+                0 0 10px #fff,
+                0 0 20px #ff0000,
+                0 0 40px #ff0000;
+        }
+
+        @keyframes titleMove {
+            0%, 100% {
+                transform: translateX(0) scale(1);
+                text-shadow: 
+                    0 0 5px #fff,
+                    0 0 10px #fff,
+                    0 0 20px #ff0000,
+                    0 0 40px #ff0000;
+            }
+            25% {
+                transform: translateX(20px) scale(1.05);
+                text-shadow: 
+                    0 0 10px #fff,
+                    0 0 20px #fff,
+                    0 0 30px #ff0000,
+                    0 0 50px #ff0000,
+                    0 0 70px #8b0000;
+            }
+            50% {
+                transform: translateX(0) scale(1);
+                text-shadow: 
+                    0 0 5px #fff,
+                    0 0 10px #fff,
+                    0 0 20px #ff0000,
+                    0 0 40px #ff0000;
+            }
+            75% {
+                transform: translateX(-20px) scale(1.05);
+                text-shadow: 
+                    0 0 10px #fff,
+                    0 0 20px #fff,
+                    0 0 30px #ff0000,
+                    0 0 50px #ff0000,
+                    0 0 70px #8b0000;
+            }
+        }
+
+        .title-line {
+            display: block;
+            line-height: 0.9;
+        }
+
+        .title-red {
+            color: #ff0000;
+            animation: flicker 3s infinite;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(20, 0, 0, 0.9);
+            border-bottom: 2px solid #ff0000;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.5);
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #ff6666;
+            text-shadow: 0 0 10px #ff0000;
+            letter-spacing: 3px;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Grid Layout */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Card Style */
+        .card {
+            background: rgba(20, 0, 0, 0.8);
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 
+                0 0 20px rgba(255, 0, 0, 0.3),
+                inset 0 0 20px rgba(255, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 0, 0, 0.1) 50%,
+                transparent 70%
+            );
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translate(-50%, -50%); }
+            100% { transform: translate(50%, 50%); }
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: #ff0000;
+            text-shadow: 0 0 10px #ff0000;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Video Container */
+        .video-container {
+            position: relative;
+            border: 3px solid #ff0000;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+            background: #000;
+        }
+
+        .video-container img {
+            width: 100%;
+            display: block;
+            filter: contrast(1.2) brightness(0.9);
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(139, 0, 0, 0.9);
+            border: 1px solid #ff0000;
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: #fff;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        .pulse-dot {
+            width: 10px;
+            height: 10px;
+            background: #00ff00;
+            border-radius: 50%;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 0 10px #00ff00;
+            }
+            50% { 
+                transform: scale(1.3);
+                box-shadow: 0 0 20px #00ff00;
+            }
+        }
+
+        /* Output Box */
+        .output-box {
+            background: #000;
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-top: 1.5rem;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 
+                0 0 20px rgba(255, 0, 0, 0.3),
+                inset 0 0 30px rgba(255, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .output-text {
+            font-size: 2rem;
+            color: #00ff00;
+            text-shadow: 0 0 20px #00ff00;
+            font-family: 'Creepster', cursive;
+            letter-spacing: 4px;
+            animation: glow-text 2s ease-in-out infinite;
+        }
+
+        @keyframes glow-text {
+            0%, 100% { 
+                text-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00;
+            }
+            50% { 
+                text-shadow: 0 0 30px #00ff00, 0 0 40px #00ff00, 0 0 50px #00ff00;
+            }
+        }
+
+        .confidence-bar {
+            width: 100%;
+            height: 10px;
+            background: #1a0000;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 1rem;
+            border: 1px solid #ff0000;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff0000, #00ff00);
+            width: 0%;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+        }
+
+        /* Buttons */
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #ff0000;
+            background: rgba(139, 0, 0, 0.8);
+            color: #fff;
+            font-family: 'Special Elite', cursive;
+            font-size: 1.1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 5px #ff0000;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 0, 0, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            background: rgba(200, 0, 0, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Reference Carousel */
+        .carousel-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .carousel-image {
+            width: 100%;
+            border-radius: 10px;
+            border: 2px solid #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+            margin-bottom: 1rem;
+        }
+
+        .carousel-caption {
+            text-align: center;
+            color: #ff6666;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+
+        /* Doodle Animations */
+        .doodle {
+            position: fixed;
+            font-size: 2rem;
+            opacity: 0.3;
+            z-index: 0;
+            animation: float-doodle 20s infinite linear;
+        }
+
+        @keyframes float-doodle {
+            0% {
+                transform: translateX(-100px) translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateX(calc(100vw + 100px)) translateY(-50px) rotate(180deg);
+            }
+            100% {
+                transform: translateX(-100px) translateY(0) rotate(360deg);
+            }
+        }
+
+        /* Lightning Effect */
+        .lightning {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .lightning.flash {
+            animation: lightning-flash 0.2s ease-out;
+        }
+
+        @keyframes lightning-flash {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            .moving-title {
+                font-size: 2.5rem;
+            }
+            .st-logo {
+                font-size: 3rem;
+            }
+            .st-logo-line1 {
+                font-size: 2rem;
+            }
+            .st-logo-line3 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(20, 0, 0, 0.9);
+            border-top: 2px solid #ff0000;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            box-shadow: 0 -5px 20px rgba(255, 0, 0, 0.3);
+        }
+
+        .footer-text {
+            color: #ff6666;
+            font-size: 1rem;
+            letter-spacing: 2px;
+        }
+
+        /* Scanlines */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 9998;
+        }
+    </style>
+</head>
+<body>
+    <!-- Intro Screen -->
+    <div class="intro-screen">
+        <div>
+            <div class="st-logo">
+                <span class="st-logo-line1">ISL</span>
+                <span class="st-logo-line2">REAL TIME</span>
+                <span class="st-logo-line3">TRANSLATION</span>
+            </div>
+            <div class="st-subtitle">A Communication Portal</div>
+        </div>
+    </div>
+
+    <!-- Background -->
+    <div class="upside-down-bg"></div>
+    <div class="scanlines"></div>
+    <div class="lightning" id="lightning"></div>
+
+    <!-- Floating Particles -->
+    <script>
+        for(let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            document.body.appendChild(particle);
+        }
+    </script>
+
+    <!-- Doodles -->
+    <div class="doodle" style="top: 10%; animation-delay: 0s;">👁️</div>
+    <div class="doodle" style="top: 30%; animation-delay: 3s;">🔦</div>
+    <div class="doodle" style="top: 50%; animation-delay: 6s;">⚡</div>
+    <div class="doodle" style="top: 70%; animation-delay: 9s;">🌙</div>
+    <div class="doodle" style="top: 90%; animation-delay: 12s;">💀</div>
+
+    <!-- Header -->
+    <header class="header">
+        <h1 class="moving-title">
+            <span class="title-line">ISL REAL TIME</span>
+            <span class="title-line title-red">TRANSLATION</span>
+        </h1>
+        <p class="subtitle">⚡ COMMUNICATION FROM THE UPSIDE DOWN ⚡</p>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="main-grid">
+            <!-- Left: Reference Guide -->
+            <div class="card">
+                <h2 class="card-title">📖 THE ANCIENT CODEX</h2>
+                <div class="carousel-container">
+                    <img src="https://raw.githubusercontent.com/uzibytes/Sign2Text/master/hand-signs-of-the-ASL-Language.png" 
+                         class="carousel-image" 
+                         alt="Sign Language Guide"
+                         id="carousel-image">
+                    <p class="carousel-caption" id="carousel-caption">The Signs of Power</p>
+                </div>
+                <div class="controls">
+                    <button class="btn" onclick="prevImage()">
+                        <span>← PREV</span>
+                    </button>
+                    <button class="btn" onclick="nextImage()">
+                        <span>NEXT →</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right: Video Feed -->
+            <div class="card">
+                <h2 class="card-title">🔮 PORTAL TO THE UPSIDE DOWN</h2>
+                <div class="video-container">
+                    <img src="{{ url_for('video_feed') }}" alt="Live Feed">
+                    <div class="video-overlay">
+                        <div class="pulse-dot"></div>
+                        <span>SIGNAL ACTIVE</span>
+                    </div>
+                </div>
+
+                <div class="output-box">
+                    <div class="output-text" id="outputText">AWAITING TRANSMISSION...</div>
+                    <div class="confidence-bar">
+                        <div class="confidence-fill" id="confidenceBar"></div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button class="btn" onclick="resetTranslation()">
+                        <span>🔄 RESET</span>
+                    </button>
+                    <button class="btn" onclick="speakText()">
+                        <span>🔊 SPEAK</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">⚠️ CLASSIFIED PROJECT ⚠️</p>
+        <p class="footer-text" style="margin-top: 1rem; font-size: 0.9rem;">
+            "In a world full of silence, we found a voice from the other side..."
+        </p>
+    </footer>
+
+    <!-- Socket.IO -->
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+    
+    <script>
+        const socket = io();
+        let currentText = '';
+        let currentImageIndex = 0;
+        
+        const images = [
+            {
+                url: 'https://raw.githubusercontent.com/uzibytes/Sign2Text/master/hand-signs-of-the-ASL-Language.png',
+                caption: 'The Alphabet of Shadows'
+            },
+            {
+                url: 'https://i.ibb.co/ZJ7858c/customsl.jpg',
+                caption: 'Messages from Beyond'
+            }
+        ];
+
+        // Carousel Functions
+        function updateCarousel() {
+            document.getElementById('carousel-image').src = images[currentImageIndex].url;
+            document.getElementById('carousel-caption').textContent = images[currentImageIndex].caption;
+        }
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            updateCarousel();
+            triggerLightning();
+        }
+
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            updateCarousel();
+            triggerLightning();
+        }
+
+        // Lightning Effect
+        function triggerLightning() {
+            const lightning = document.getElementById('lightning');
+            lightning.classList.add('flash');
+            setTimeout(() => lightning.classList.remove('flash'), 200);
+        }
+
+        // Random lightning every 10-20 seconds
+        setInterval(() => {
+            if(Math.random() > 0.7) {
+                triggerLightning();
+            }
+        }, 10000);
+
+        // Socket Connection
+        socket.on('connect', () => {
+            console.log('Connected to the Upside Down...');
+        });
+
+        // Receive Predictions
+        socket.on('prediction', (data) => {
+            if (data.predictions && data.predictions.length > 0) {
+                const pred = data.predictions[0];
+                currentText = pred.text;
+                
+                document.getElementById('outputText').textContent = currentText;
+                document.getElementById('confidenceBar').style.width = (pred.confidence * 100) + '%';
+                
+                // Random lightning on new prediction
+                if(Math.random() > 0.8) {
+                    triggerLightning();
+                }
+            }
+        });
+
+        // Reset Function
+        function resetTranslation() {
+            document.getElementById('outputText').textContent = 'AWAITING TRANSMISSION...';
+            document.getElementById('confidenceBar').style.width = '0%';
+            currentText = '';
+            triggerLightning();
+        }
+
+        // Speak Function
+        function speakText() {
+            if (currentText && 'speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(currentText);
+                utterance.rate = 0.8;
+                utterance.pitch = 0.8;
+                speechSynthesis.speak(utterance);
+                triggerLightning();
+            }
+        }
+    </script>
+</body>
+</html>

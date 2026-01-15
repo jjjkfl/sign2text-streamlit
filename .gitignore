@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+*.pyc
+*.p
+*.pickle
+model.p
+.env
